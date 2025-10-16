@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma de Rodízio - XCloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple animation for today's date */
+        .glow {
+            animation: glow-animation 1.5s infinite alternate;
+        }
+        @keyframes glow-animation {
+            from {
+                box-shadow: 0 0 10px #0ea5e9, 0 0 20px #0ea5e9;
+            }
+            to {
+                box-shadow: 0 0 20px #0284c7, 0 0 30px #0284c7;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl mx-auto bg-slate-800 rounded-2xl shadow-2xl shadow-cyan-500/10 p-6 md:p-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-cyan-400 tracking-wider">OUTUBRO - XCLOUD</h1>
+            <p class="text-slate-400 mt-1">Cronograma de Rodízio da Conta</p>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="grid grid-cols-7 gap-2">
+            
+            <!-- Day Headers -->
+            <div class="text-center font-semibold text-slate-300 py-2">Dom</div>
+            <div class="text-center font-semibold text-slate-300 py-2">Seg</div>
+            <div class="text-center font-semibold text-slate-300 py-2">Ter</div>
+            <div class="text-center font-semibold text-slate-300 py-2">Qua</div>
+            <div class="text-center font-semibold text-slate-300 py-2">Qui</div>
+            <div class="text-center font-semibold text-slate-300 py-2">Sex</div>
+            <div class="text-center font-semibold text-slate-300 py-2">Sab</div>
+
+            <!-- Empty cells for padding -->
+            <div class="border border-slate-700 rounded-lg h-20 md:h-24"></div>
+            <div class="border border-slate-700 rounded-lg h-20 md:h-24"></div>
+            <div class="border border-slate-700 rounded-lg h-20 md:h-24"></div>
+            
+            <!-- Calendar Days Data -->
+            <script>
+                const schedule = {
+                    1: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    2: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    3: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    4: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    5: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    6: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    7: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    8: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    9: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    10: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    11: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    12: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    13: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    14: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    15: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    16: { user: 'I', color: 'bg-green-500/20 border-green-500', isToday: true },
+                    17: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    18: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    19: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    20: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    21: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    22: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    23: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    24: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    25: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    26: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    27: { user: 'U', color: 'bg-yellow-500/20 border-yellow-500' },
+                    28: { user: 'M', color: 'bg-blue-500/20 border-blue-500' },
+                    29: { user: 'I', color: 'bg-green-500/20 border-green-500' },
+                    30: { user: 'F', color: 'bg-red-500/20 border-red-500' },
+                    31: { user: 'M', color: 'bg-blue-500/20 border-blue-500' }
+                };
+                
+                // Note: October 2025 has 31 days.
+                const totalDays = 31;
+                
+                for (let day = 1; day <= totalDays; day++) {
+                    const dayInfo = schedule[day];
+                    let cellClasses = 'border rounded-lg h-20 md:h-24 p-2 flex flex-col justify-between transition-all duration-300 hover:scale-105 ';
+                    let dayText = `<span class="font-bold text-lg">${day}</span>`;
+                    let userText = '';
+
+                    if (dayInfo) {
+                        cellClasses += dayInfo.color;
+                        userText = `<span class="text-2xl md:text-3xl font-black self-end opacity-80">${dayInfo.user}</span>`;
+                        if(dayInfo.isToday) {
+                            cellClasses += ' border-sky-400 border-2 relative glow';
+                            dayText = `<span class="font-bold text-lg text-sky-300">${day}*</span>`;
+                        }
+                    } else {
+                        // Fallback for days not in schedule, though all should be.
+                        cellClasses += 'border-slate-700 bg-slate-800';
+                    }
+
+                    document.write(`<div class="${cellClasses}">${dayText}${userText}</div>`);
+                }
+            </script>
+        </div>
+        
+        <!-- Legend -->
+        <div class="mt-8 pt-6 border-t border-slate-700">
+            <h2 class="text-xl font-bold text-center mb-4 text-slate-300">LEGENDA</h2>
+            <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-red-500/50 border border-red-400"></span>
+                    <span>(F)elipe</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-blue-500/50 border border-blue-400"></span>
+                    <span>(M)ateus</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-green-500/50 border border-green-400"></span>
+                    <span>(I)smael</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-yellow-500/50 border border-yellow-400"></span>
+                    <span>M(U)rilo</span>
+                </div>
+                 <div class="flex items-center gap-2 text-sky-300">
+                    <span class="font-bold">*</span>
+                    <span>= Hoje</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
